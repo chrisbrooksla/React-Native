@@ -32,7 +32,9 @@ class Home extends Component {
         };
     }
 
-    static navigationOptions = {
+
+    // below is just the title name in the purple bar at top of screen
+    static navigationOptions = {  
         title: 'Home'
     }
 
@@ -53,4 +55,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Home;   
