@@ -25,6 +25,30 @@ const mapDispatchToProps = {
 
 
 
+const HomeNavigator = createStackNavigator(
+    {
+        Home: { screen: Home }
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                            name='home'
+                            type='font-awesome'
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+        })
+    }
+);
+
+
 const DirectoryNavigator = createStackNavigator(
     {
         Directory: { 
@@ -54,9 +78,10 @@ const DirectoryNavigator = createStackNavigator(
     }
 );
 
-const HomeNavigator = createStackNavigator(
+
+const ReservationNavigator = createStackNavigator(
     {
-        Home: { screen: Home }
+        Reservation: { screen: Reservation }
     },
     {
         defaultNavigationOptions: ({navigation}) => ({
@@ -68,15 +93,14 @@ const HomeNavigator = createStackNavigator(
                 color: '#fff'
             },
             headerLeft: <Icon
-                            name='home'
-                            type='font-awesome'
-                            iconStyle={styles.stackIcon}
-                            onPress={() => navigation.toggleDrawer()}
-                        />
+                name='tree'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
         })
     }
-);
-
+)
 
 const AboutNavigator = createStackNavigator(
     {
@@ -125,28 +149,7 @@ const ContactNavigator = createStackNavigator(
     }
 );
 
-const ReservationNavigator = createStackNavigator(
-    {
-        Reservation: { screen: Reservation }
-    },
-    {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            },
-            headerLeft: <Icon
-                name='tree'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
-    }
-)
+
 
 const CustomDrawerContentComponent = props => (
     <ScrollView>
