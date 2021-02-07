@@ -20,17 +20,7 @@ class Reservation extends Component {
         title: 'Reserve Campsite'
     }
 
-    handleReservation() {
-        console.log(JSON.stringify(this.state));
-        this.setState({
-            campers: 1,
-            hikeIn: false,
-            showCalendar: false,
-            showModal: false
     
-        });
-    }
-
 
     toggleModal() {
         this.setState({showModal: !this.state.showModal});
