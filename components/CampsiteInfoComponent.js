@@ -10,12 +10,12 @@ import {
   StyleSheet,
   Alert,
   PanResponder,
+  Share,
 } from "react-native";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
 import { postFavorite, postComment } from "../redux/ActionCreators";
 import * as Animatable from "react-native-animatable";
-
 
 const mapStateToProps = (state) => {
   return {
@@ -25,16 +25,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 const mapDispatchToProps = {
   postFavorite: (campsiteId) => postFavorite(campsiteId),
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
 };
 
-
 function RenderCampsite(props) {
-
   const { campsite } = props;
 
   const view = React.createRef();
@@ -45,7 +42,7 @@ function RenderCampsite(props) {
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-    
+
     onPanResponderGrant: () => {
       view.current
         .rubberBand(1000)
@@ -83,6 +80,18 @@ function RenderCampsite(props) {
     },
   });
 
+  const shareCampsite = (title, message, url) => {
+    Share.share(
+      {
+        title: title,
+        message: `${title}: ${message} ${url}`,
+        url: url,
+      },
+      {
+        dialogTitle: "Share " + title,
+      }
+    );
+  };
 
   if (campsite) {
     return (
@@ -97,10 +106,8 @@ function RenderCampsite(props) {
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
         >
-
           <Text style={{ margin: 10 }}>{campsite.description}</Text>
           <View style={styles.cardRow}>
-
             <Icon
               name={props.favorite ? "heart" : "heart-o"}
               type="font-awesome"
@@ -123,6 +130,20 @@ function RenderCampsite(props) {
               onPress={() => props.onShowModal()}
             />
 
+            <Icon
+              name={"share"}
+              type="font-awesome"
+              color="#5637DD"
+              raised
+              reverse
+              onPress={() =>
+                shareCampsite(
+                  campsite.name,
+                  campsite.description,
+                  baseUrl + campsite.image
+                )
+              }
+            />
           </View>
         </Card>
       </Animatable.View>
@@ -132,7 +153,6 @@ function RenderCampsite(props) {
 }
 
 function RenderComments({ comments }) {
-
   const renderCommentItem = ({ item }) => {
     return (
       <View style={{ margin: 10 }}>
@@ -163,7 +183,6 @@ function RenderComments({ comments }) {
   );
 }
 
-
 class CampsiteInfo extends Component {
   constructor(props) {
     super(props);
@@ -179,11 +198,9 @@ class CampsiteInfo extends Component {
     this.props.postFavorite(campsiteId);
   }
 
-
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
   }
-
 
   handleComment(campsiteId) {
     this.props.postComment(
@@ -195,7 +212,6 @@ class CampsiteInfo extends Component {
     this.toggleModal();
   }
 
-
   resetForm() {
     this.setState({
       showModal: false,
@@ -205,11 +221,9 @@ class CampsiteInfo extends Component {
     });
   }
 
-
   static navigationOptions = {
     title: "Campsite Information",
   };
-
 
   render() {
     const campsiteId = this.props.navigation.getParam("campsiteId");
@@ -240,7 +254,6 @@ class CampsiteInfo extends Component {
           onRequestClose={() => this.toggleModal()}
           style={styles.modal}
         >
-
           <View style={styles.modal}>
             <Rating
               showRating
@@ -285,15 +298,12 @@ class CampsiteInfo extends Component {
                 title="Cancel"
               />
             </View>
-
           </View>
         </Modal>
       </ScrollView>
     );
   }
 }
-
-
 
 const styles = StyleSheet.create({
   cardRow: {
@@ -308,6 +318,5 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampsiteInfo);
